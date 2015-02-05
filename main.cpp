@@ -13,7 +13,6 @@ struct TCompName {
     strcpy_s(name, aname);
   }
 };
-DECLARE_HANDLE_MANAGER(TCompName, "name");
 
 // -----------------------------------------
 struct TCompLife {
@@ -24,7 +23,11 @@ struct TCompLife {
     dbg("Life %p has been dtor when life is %d\n", this, life);
   }
 };
+
+// -----------------------------------------
+DECLARE_HANDLE_MANAGER(TCompName, "name");
 DECLARE_HANDLE_MANAGER(TCompLife, "life");
+DECLARE_HANDLE_MANAGER(TEntity, "entity");
 
 // -----------------------------------------
 void createManagers() {
@@ -91,6 +94,12 @@ void test() {
   h[0].destroy();
   h[0].destroy();
   on->dumpInternals();
+  h[1].destroy();
+  h[2].destroy();
+}
+
+void testEntities() {
+  auto on = getObjsManager<TCompLife>();
 
   // Test entities
   TEntity* e1 = THandle::create<TEntity>("john");
@@ -110,16 +119,26 @@ void test() {
   TCompLife* life4 = e1->addHandle(THandle::create<TCompLife>(23));
   TCompLife* life5 = e1->get("life");
   assert(life4 == life5);
-
-  //dbg("allocating 3\n");
-  //THandle h1c = THandle::create<TCompLife>(1001);
-  //on->dumpInternals();
-  // clonar
+  THandle(life4).destroy();
 }
 
+
+void testClone() {
+  auto on = getObjsManager<TCompLife>();
+
+  THandle h1 = THandle::create<TCompLife>(123);
+  THandle h2 = h1.clone();
+  TCompLife *c1 = h1;
+  TCompLife *c2 = h2;
+  dbg("c1.life is %d, c2.life is %d\n", c1->life, c2->life);
+
+  on->dumpInternals();
+}
 
 int main(int argc, char**argv) {
   createManagers();
   test();
+  testEntities();
+  testClone();
   return 0;
 }

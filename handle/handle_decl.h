@@ -33,6 +33,8 @@ struct THandle {
 
   bool destroy() const;
 
+  THandle clone() const;
+
   // ----------------------------------
   // Conversion
   uint32_t asUnsigned() const { return *(uint32_t*)this; }

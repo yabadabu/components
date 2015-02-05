@@ -1,7 +1,7 @@
 #include "handle.h"
 
 // -----------------------------------------
-// Forward the query to the handle manager
+// Forward the queries/actions to the handle manager
 bool THandle::isValid() const {
   CHandleManager* hm = CHandleManager::getByType(type);
   return hm && hm->isValid(*this);
@@ -26,4 +26,11 @@ bool THandle::setOwner(THandle new_owner) const {
   if (hm)
     return hm->setOwner(*this, new_owner);
   return false;
+}
+
+THandle THandle::clone() const {
+  CHandleManager* hm = CHandleManager::getByType(type);
+  if (hm)
+    return hm->clone(*this);
+  return THandle();
 }

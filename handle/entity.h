@@ -1,3 +1,6 @@
+#ifndef INC_HANDLE_ENTITY_H_
+#define INC_HANDLE_ENTITY_H_
+
 // ------------------------------------------------------
 class TEntity {
   THandle comps[THandle::max_types];
@@ -6,6 +9,16 @@ public:
   const char* getName() const { return name; }
   TEntity() { name[0] = 0x00; }
   TEntity(const char* aname) { strcpy(name, aname); }
+  
+  // ---------------------------------------------------------
+  ~TEntity() {
+
+    // Destroy all the components we own
+    for (int i = 0; i < THandle::max_types; ++i)
+      if (comps[i])
+        comps[i].destroy();
+  
+  }
 
   // Creates a new instance of object TObj
   template< class TObj, class... Args >
@@ -58,5 +71,5 @@ public:
   }
 };
 
-DECLARE_HANDLE_MANAGER(TEntity, "entity");
 
+#endif

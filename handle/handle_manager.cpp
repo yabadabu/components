@@ -12,10 +12,13 @@ void CHandleManager::registerAsHandleManager() {
   ++next_type;
 }
 
+// Given the type, get the manager pointer
 CHandleManager* CHandleManager::getByType(uint32_t atype) {
   assert(atype < next_type);
   return all_handle_managers[atype];
 }
+
+// Given the name, get the manager pointer
 CHandleManager* CHandleManager::getByName(const char* aname) {
   MDictByName::iterator it = all_handle_managers_by_name.find(aname);
   if (it != all_handle_managers_by_name.end())
@@ -23,6 +26,7 @@ CHandleManager* CHandleManager::getByName(const char* aname) {
   return nullptr;
 }
 
+// Given the name, get the type
 uint32_t getTypeByName(const char* name) {
   CHandleManager* hm = CHandleManager::getByName(name);
   if (hm)

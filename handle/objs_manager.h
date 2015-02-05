@@ -120,6 +120,8 @@ public:
 
     // Once we are destroyed, we no longer have a real object associated
     d->internal_index = invalid_index;
+    
+    d->owner_handle = THandle();
 
     // This invalidates all existing copies of the old handle
     d->current_age++;
@@ -148,6 +150,15 @@ public:
       return THandle(external_index, d->current_age, getType());
     }
     return THandle();
+  }
+
+  // ---------------------------------------------------------------
+  // Use the copy ctor to generate a new object
+  THandle clone(THandle h_src) {
+    TObj *obj_src = getObjByHandle(h_src);
+    if (!obj_src)
+      return THandle();
+    return createObj(*obj_src);
   }
 
 };

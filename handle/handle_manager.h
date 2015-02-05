@@ -120,6 +120,7 @@ public:
 
   // We need the virtual method because we don't know the type of objects to 'destroy'
   virtual bool destroy(THandle h) = 0;
+  virtual THandle clone(THandle h) = 0;
 
   // Owner
   bool setOwner(THandle who, THandle new_owner);

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="handle">
+      <UniqueIdentifier>{a824ea25-2ece-4774-842f-0e3f479c72e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="handle\handle.h">
+      <Filter>handle</Filter>
+    </ClInclude>
+    <ClInclude Include="handle\objs_manager.h">
+      <Filter>handle</Filter>
+    </ClInclude>
+    <ClInclude Include="handle\handle_manager.h">
+      <Filter>handle</Filter>
+    </ClInclude>
+    <ClInclude Include="handle\handle_decl.h">
+      <Filter>handle</Filter>
+    </ClInclude>
+    <ClInclude Include="handle\entity.h">
+      <Filter>handle</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="handle\handle_manager.cpp">
+      <Filter>handle</Filter>
+    </ClCompile>
+    <ClCompile Include="handle\utils.cpp" />
+    <ClCompile Include="handle\handle_decl.cpp">
+      <Filter>handle</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

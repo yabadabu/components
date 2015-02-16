@@ -1,6 +1,47 @@
 #include <cstdio>
 #include "handle/handle.h"
-#include "handle/entity.h"
+
+struct TMsg {
+  TMsgID msg_id;
+  union {
+  };
+};
+
+template< class TObj, void (TObj::*method)( const TMsg&  ) >
+struct TMsgCB {
+  static void onMsg(void* obj_addr, const TMsg& msg) {
+    TObj* obj = (TObj*)obj_addr;
+    (obj->*method)(msg);
+  }
+};
+
+struct TCallbackRegistry {
+  uint32_t handle_type;
+  void(*callback)(const TMsg& msg);
+};
+
+class MMsgsRegistry : public std::map < TMsgID, TCallbackRegistry > {
+public:
+  template<class TObj>
+  void regMsg(TMsgID msg_id, void (TObj::*method)( const TMsg& msg)) {
+    //(*this)[msg_id] = &TMsgCB<TObj, void(TObj::*method)(const TMsg&)>::onMsg;
+    (*this)[msg_id] = &TMsgCB::onMsg;
+  }
+};
+
+MMsgsRegistry msgs_register;
+
+void TEntity::sendMsg(TMsgID msg_id) {
+  
+
+
+}
+
+
+
+// A msg arrives to the entity, get msg_type, get list of handles affected, if handle type is affected
+// and entity has that msg, call the component with that msg 
+
 
 // -----------------------------------------
 struct TCompName {
@@ -22,6 +63,7 @@ struct TCompLife {
   ~TCompLife() {
     dbg("Life %p has been dtor when life is %d\n", this, life);
   }
+  void onHello(const TMsg& msg);
 };
 
 // -----------------------------------------
@@ -34,6 +76,10 @@ void createManagers() {
   getObjsManager<TEntity>()->allocateObjs(8);
   getObjsManager<TCompLife>()->allocateObjs(4);
   getObjsManager<TCompName>()->allocateObjs(4);
+}
+
+void initMsgs() {
+  msgs_register.regMsg<TCompLife>(MSG_HELLO, &TCompLife::onHello);
 }
 
 // ------------------------------------------------------
@@ -135,10 +181,16 @@ void testClone() {
   on->dumpInternals();
 }
 
+void testMsgs() {
+
+}
+
+
 int main(int argc, char**argv) {
   createManagers();
   test();
   testEntities();
   testClone();
+  testMsgs();
   return 0;
 }

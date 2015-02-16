@@ -21,6 +21,9 @@
     <ClInclude Include="handle\entity.h">
       <Filter>handle</Filter>
     </ClInclude>
+    <ClInclude Include="handle\msgs_types.h">
+      <Filter>handle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -29,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="handle\utils.cpp" />
     <ClCompile Include="handle\handle_decl.cpp">
+      <Filter>handle</Filter>
+    </ClCompile>
+    <ClCompile Include="handle\entity.cpp">
       <Filter>handle</Filter>
     </ClCompile>
   </ItemGroup>

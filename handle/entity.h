@@ -69,6 +69,9 @@ public:
     comps[comp_type] = THandle();          // detach it from us
     return h.destroy();
   }
+
+  void sendMsg(TMsgID msg_id);
+
 };
 
 

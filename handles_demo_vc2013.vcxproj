@@ -23,9 +23,11 @@
     <ClInclude Include="handle\handle.h" />
     <ClInclude Include="handle\handle_decl.h" />
     <ClInclude Include="handle\handle_manager.h" />
+    <ClInclude Include="handle\msgs_types.h" />
     <ClInclude Include="handle\objs_manager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="handle\entity.cpp" />
     <ClCompile Include="handle\handle_decl.cpp" />
     <ClCompile Include="handle\handle_manager.cpp" />
     <ClCompile Include="handle\utils.cpp" />

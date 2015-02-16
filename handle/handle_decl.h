@@ -21,8 +21,8 @@ struct THandle {
   // ----------------------------------
   // Create a handle given the address on an obj
   template< class TObj >
-  explicit THandle(const TObj *obj) {
-    *this = getObjsManager<TObj>()->getHandleByObj(obj);
+  THandle(const TObj *obj) {
+    *this = getObjsManager< std::remove_const<TObj>::type >()->getHandleByObj(obj);
   }
 
   // Creates a new instance of object TObj
@@ -44,12 +44,12 @@ struct THandle {
   // Given the handle, return the object pointer
   template< class TObj >
   inline operator TObj*() const {
-    CObjsManager<TObj> *om = getObjsManager<TObj>();
+    CObjsManager<TObj> *om = getObjsManager< std::remove_const<TObj>::type >();
     assert(om);
     if (type == 0)
       return nullptr;
-    assert(::getType< TObj >() == type
-      || fatal("Trying to convert handle of type '%s' to wrong type '%s'\n", om->getTypeName(), getTypeName<TObj>()));
+    assert(::getType< std::remove_const<TObj>::type >() == type
+      || fatal("Trying to convert handle of type '%s' to wrong type '%s'\n", om->getTypeName(), getTypeName<std::remove_const<TObj>::type>()));
     return om->getObjByHandle(*this);
   }
 

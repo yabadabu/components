@@ -9,9 +9,13 @@ void dbg(const char* fmt, ...);
 bool fatal(const char* fmt, ...);
 
 // ------------------------------------
+struct TMsg;
+
 #include "handle_decl.h"
 #include "handle_manager.h"
 #include "objs_manager.h"
+#include "msgs.h"
+#include "entity.h"
 
 // Bind manager with the type_name
 #define DECLARE_HANDLE_MANAGER(TObj, obj_type_name)                     \

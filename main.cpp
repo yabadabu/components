@@ -12,6 +12,9 @@ struct TCompName {
     memset(name, 0x00, sizeof(name));
     strcpy_s(name, aname);
   }
+  void hello(const TMsg& msg) {
+    dbg("hi from TCompName::hello. MsgId: %d\n", msg.id);
+  }
 };
 
 // -----------------------------------------
@@ -22,6 +25,9 @@ struct TCompLife {
   ~TCompLife() {
     dbg("Life %p has been dtor when life is %d\n", this, life);
   }
+  void hello(const TMsg& msg) {
+    dbg("hi from TLife::hello. MsgId: %d My life is %d\n", msg.id, life );
+  }
 };
 
 // -----------------------------------------
@@ -29,12 +35,20 @@ DECLARE_HANDLE_MANAGER(TCompName, "name");
 DECLARE_HANDLE_MANAGER(TCompLife, "life");
 DECLARE_HANDLE_MANAGER(TEntity, "entity");
 
+
+
 // -----------------------------------------
 void createManagers() {
   getObjsManager<TEntity>()->allocateObjs(8);
   getObjsManager<TCompLife>()->allocateObjs(4);
   getObjsManager<TCompName>()->allocateObjs(4);
+
+  SUBSCRIBE(TCompLife, TMsgID::MSG_HELLO, hello);
+  SUBSCRIBE(TCompName, TMsgID::MSG_HELLO, hello);
+
 }
+
+
 
 // ------------------------------------------------------
 void test() {
@@ -135,10 +149,19 @@ void testClone() {
   on->dumpInternals();
 }
 
+void testMsgs() {
+
+  TEntity* e1 = THandle::create<TEntity>("john");
+  TCompLife* life = e1->add<TCompLife>(100);
+  e1->send(TMsgID::MSG_HELLO);
+}
+
+
 int main(int argc, char**argv) {
   createManagers();
   test();
   testEntities();
   testClone();
+  testMsgs();
   return 0;
 }
